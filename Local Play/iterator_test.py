@@ -20,7 +20,7 @@ class TestIterClassPowThree:
             result = self.number ** 3 # number power of three
             self.number += 1
             return result
-        raise StopIteration
+        raise StopIteration # should raise this for iterators
     
 
 test_iter_class = TestIterClassPowThree(10)
@@ -29,4 +29,23 @@ numberOfThree = iter(test_iter_class)
 for i in numberOfThree:
     print(i)
     # print(next(numberOfThree)) #? jesus -> don't do this man!
+    
+
+# Infinite Iterator :D
+class InfiniteDot:
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        return '.'
+
+
+# test_class = InfiniteDot()
+test_dot_print = iter(InfiniteDot())
+
+# for dot in test_dot_print:
+#     print(dot, end='')
+   
+    
+    
     
