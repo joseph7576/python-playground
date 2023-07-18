@@ -6,6 +6,11 @@ test_iter = iter(test_list)
 # print(next(test_iter))
 # print(next(test_iter))
 
+'''
+__iter__() returns the iterator object itself. If required, some initialization can be performed.
+
+__next__() must return the next item in the sequence. On reaching the end, and in subsequent calls, it must raise StopIteration.
+'''
 
 class TestIterClassPowThree:
     def __init__(self, _max=0) -> None: # you can also skip the constructor
