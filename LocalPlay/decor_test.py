@@ -26,3 +26,25 @@ def some_heavy_stuff():
 
 some_heavy_stuff()
 
+
+# closure - and we have closure dunder
+def make_multiplier_of(n):
+    def multiplier(x):
+        return x * n
+    return multiplier
+
+
+# Multiplier of 3
+times3 = make_multiplier_of(3) # times3 is a closure function
+
+# Multiplier of 5
+times5 = make_multiplier_of(5) # like this - the parameter here is n
+ 
+# Output: 27
+print(times3(9)) # the parametere here is x
+
+# Output: 15
+print(times5(3))
+
+# Output: 30
+print(times5(times3(2)))
