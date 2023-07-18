@@ -89,7 +89,7 @@ class Item:
         else:
             return False
     
-    # magic method to how to represent an object
+    # magic method to how to represent an object - #! it's Dunder: Double Under(underscore)
     def __repr__(self) -> str:
         # with this approach u can easily create instance from copying and pasting just the repr magic method ;D
         # self.__class__.__name__ is the generic name to accessing class name - should work good with child classes
@@ -154,4 +154,31 @@ print(Item.all_item)
     -> Apply to Entire Project. i.e: len() nuiltin function -> know how to handle different type of arguments like str, list, dict...
     
     
+'''
+
+# Dunder use for operator overloading
+# u can use dir() function to see the dunders and methods 
+# also it can list all functions inside a module
+
+class Employee:
+  def __new__(cls): # _> called before init for instantiate a new object -> first argument is class!
+    print ("__new__ magic method is called")
+    inst = object.__new__(cls)
+    return inst
+
+  def __init__(self):
+    print ("__init__ magic method is called")
+    self.name='Sa'
+    
+# from: https://www.tutorialsteacher.com/python/magic-methods-in-python
+#? and: https://rszalski.github.io/magicmethods/ -> cool
+
+'''
+__str__(self)
+Defines behavior for when str() is called on an instance of your class.
+
+__repr__(self)
+Defines behavior for when repr() is called on an instance of your class. 
+The major difference between str() and repr() is intended audience. repr() is intended to produce output that is mostly machine-readable 
+(in many cases, it could be valid Python code even), whereas str() is intended to be human-readable.
 '''
