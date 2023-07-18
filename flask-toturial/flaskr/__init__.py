@@ -29,7 +29,18 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
     
+    # register db config + cmd
     from . import db
     db.init_app(app)
+    
+    # register blueprint -> auth
+    from . import auth
+    app.register_blueprint(auth.bp)
+    
+    # register blog
+    from . import blog
+    app.register_blueprint(blog.bp)
+    app.add_url_rule('/', endpoint='index') # does not have url_prefix
+
 
     return app
