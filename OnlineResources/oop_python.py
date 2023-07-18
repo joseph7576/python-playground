@@ -17,7 +17,7 @@ class Item:
         
         # assign to self object
         # there are instance attribute
-        # single underscore means it will allow to be property - allow to be initialized
+        # single underscore means it will allow to be property - allow to be initialized - private variable
         # double underscore means it will be private - encapsulation
         self.__name = name
         self.__price = price
@@ -182,3 +182,7 @@ Defines behavior for when repr() is called on an instance of your class.
 The major difference between str() and repr() is intended audience. repr() is intended to produce output that is mostly machine-readable 
 (in many cases, it could be valid Python code even), whereas str() is intended to be human-readable.
 '''
+
+#? Note: The private variables don't actually exist in Python. There are simply norms to be followed. The language itself doesn't apply any restrictions.
+
+#* property(fget=None, fset=None, fdel=None, doc=None) / getter(), setter(), deleter(), comment
