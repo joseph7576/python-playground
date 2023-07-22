@@ -1,6 +1,8 @@
 # from: https://www.youtube.com/watch?v=tLKKmouUams
 # and: https://fastapi.tiangolo.com/tutorial/ -> mostly - so cool doc man :D
 #? install it using pip install "fastapi[all]"
+#! also check python types intro from this official docs :D
+#* this is just for testing and learning - not the actual software
 
 
 from fastapi import FastAPI
@@ -93,3 +95,79 @@ async def read_user_item(
 ):
     item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}
     return item
+
+
+from pydantic import BaseModel
+
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None # i'm using python 3.10+ :D
+    price: float
+    tax: float | None = None
+    
+
+@app.post("/items/")
+async def create_item(item: Item):
+    item_dict = item.model_dump() # dict() is deprecated
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax})
+    return item_dict
+
+
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Item, q: str | None = None):
+    result = {"item_id": item_id, **item.model_dump()}
+    if q:
+        result.update({"q": q})
+    return result
+
+
+from typing import Annotated
+from fastapi import FastAPI, Query, Path
+
+
+# async def read_items(q: Annotated[str, Query(min_length=3)] = ...):
+# ... means it's required! #? https://docs.python.org/3/library/constants.html#Ellipsis
+# add more meta data to this :D
+# async def read_items(
+#     q: Annotated[
+#         str | None,
+#         Query(
+#             title="Query string",
+#             description="Query string for the items to search in the database that have a good match",
+#             min_length=3,
+#         ),
+#     ] = None
+# ):
+@app.get("/items/")
+async def read_items(q: Annotated[str | None, Query(max_length=50)] = None): 
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q}) # type: ignore
+    return results
+
+
+@app.get("/items/{item_id}")
+async def read_items_pro(
+    item_id: Annotated[int, Path(title="The ID of the item to get")], # add more metadata to path parameter
+    q: Annotated[str | None, Query(alias="item-query")] = None, # and we have some query parameters too :D
+):
+    results = {"item_id": item_id}
+    if q:
+        results.update({"q": q}) # type: ignore
+    return results
+
+
+@app.get("/items/{item_id}")
+async def read_items_more_pro(
+    *,
+    item_id: Annotated[int, Path(title="The ID of the item to get", ge=0, le=1000)], # more validation
+    q: str,
+    size: Annotated[float, Query(gt=0, lt=10.5)],
+):
+    results = {"item_id": item_id}
+    if q:
+        results.update({"q": q}) # type: ignore
+    return results
