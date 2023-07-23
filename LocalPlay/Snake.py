@@ -1,3 +1,4 @@
+import sys
 import pygame
 import random
 
@@ -42,7 +43,7 @@ class Snake:
         if new in self.positions[2:]:
             self.reset()
         else:
-            self.positions.insert(0, new)
+            self.positions.insert(0, new) # type: ignore
             if len(self.positions) > self.length:
                 self.positions.pop()
 
